@@ -4,12 +4,16 @@ export class AuthenticationMiddleware {
   init(request: Request, response: Response, next: NextFunction) {
     try {
       const header = request.headers["authorization"];
-      console.log(header);
+      const token = header.split(" ")[0];
+      if (!token) {
+        return response.sendStatus(401);
+      }
+
+      // Handle token
 
       next();
     } catch {
-      response.sendStatus(401);
-      response.end();
+      return response.sendStatus(401);
     }
   }
 }
